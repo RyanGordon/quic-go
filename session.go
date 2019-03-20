@@ -937,7 +937,13 @@ func (s *session) processTransportParameters(data []byte) {
 		s.closeLocal(err)
 		return
 	}
-	s.logger.Debugf("Received Transport Parameters: %+v", params)
+
+	if params == nil {
+		s.logger.Debugf("Received Transport Parameters: nil")
+		return
+	}
+
+	s.logger.Debugf("Received Transport Parameters: %s", params)
 	s.peerParams = params
 	s.streamsMap.UpdateLimits(params)
 	s.packer.HandleTransportParameters(params)
