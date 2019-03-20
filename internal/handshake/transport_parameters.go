@@ -232,12 +232,12 @@ func (p *TransportParameters) marshal(b *bytes.Buffer) {
 // String returns a string representation, intended for logging.
 func (p *TransportParameters) String() string {
 	logString := "&handshake.TransportParameters{OriginalConnectionID: %s, InitialMaxStreamDataBidiLocal: %#x, InitialMaxStreamDataBidiRemote: %#x, InitialMaxStreamDataUni: %#x, InitialMaxData: %#x, MaxBidiStreams: %d, MaxUniStreams: %d, IdleTimeout: %s, AckDelayExponent: %d"
-	statelessResetToken := [16]byte{}
-	if p.StatelessResetToken != nil { // the client never sends a stateless reset token
-		logString += ", StatelessResetToken: %#x"
-		statelessResetToken = *p.StatelessResetToken
-	}
-	logString += "}"
+	outString := fmt.Sprintf(logString, p.OriginalConnectionID, p.InitialMaxStreamDataBidiLocal, p.InitialMaxStreamDataBidiRemote, p.InitialMaxStreamDataUni, p.InitialMaxData, p.MaxBidiStreams, p.MaxUniStreams, p.IdleTimeout, p.AckDelayExponent)
 
-	return fmt.Sprintf(logString, p.OriginalConnectionID, p.InitialMaxStreamDataBidiLocal, p.InitialMaxStreamDataBidiRemote, p.InitialMaxStreamDataUni, p.InitialMaxData, p.MaxBidiStreams, p.MaxUniStreams, p.IdleTimeout, p.AckDelayExponent, statelessResetToken)
+	if p.StatelessResetToken != nil { // the client never sends a stateless reset token
+		outString += fmt.Sprintf(", StatelessResetToken: %#x", *p.StatelessResetToken)
+	}
+	outString += "}"
+
+	return outString
 }
