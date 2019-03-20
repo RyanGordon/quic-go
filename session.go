@@ -940,7 +940,14 @@ func (s *session) processTransportParameters(data []byte) {
 		return
 	}
 
+	if params == nil {
+		err = qerr.Error(qerr.TransportParameterError, "Received Transport Parameters: nil")
+		s.closeLocal(err)
+		return
+	}
+
 	s.logger.Debugf("Received Transport Parameters: %s", params)
+
 	s.peerParams = params
 	s.streamsMap.UpdateLimits(params)
 	s.packer.HandleTransportParameters(params)
