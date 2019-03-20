@@ -932,14 +932,11 @@ func (s *session) processTransportParameters(data []byte) {
 		params, err = s.processTransportParametersForClient(data)
 	case protocol.PerspectiveServer:
 		params, err = s.processTransportParametersForServer(data)
+	default:
+		err = qerr.Error(qerr.TransportParameterError, fmt.Sprintf("Invalid transport parameter perspective: %d", s.perspective))
 	}
 	if err != nil {
 		s.closeLocal(err)
-		return
-	}
-
-	if params == nil {
-		s.logger.Debugf("Received Transport Parameters: nil")
 		return
 	}
 
