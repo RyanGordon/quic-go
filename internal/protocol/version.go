@@ -18,14 +18,15 @@ const (
 
 // The version numbers, making grepping easier
 const (
-	VersionTLS      VersionNumber = 0x51474fff
-	VersionWhatever VersionNumber = 1 // for when the version doesn't matter
-	VersionUnknown  VersionNumber = math.MaxUint32
+	VersionTLS         VersionNumber = 0x51474fff
+	VersionFakeDraft17 VersionNumber = 0xff000011
+	VersionWhatever    VersionNumber = 1 // for when the version doesn't matter
+	VersionUnknown     VersionNumber = math.MaxUint32
 )
 
 // SupportedVersions lists the versions that the server supports
 // must be in sorted descending order
-var SupportedVersions = []VersionNumber{VersionTLS}
+var SupportedVersions = []VersionNumber{VersionTLS, VersionFakeDraft17}
 
 // IsValidVersion says if the version is known to quic-go
 func IsValidVersion(v VersionNumber) bool {
